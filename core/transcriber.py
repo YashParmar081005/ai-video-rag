@@ -80,7 +80,7 @@ def transcribe_chunk_sarvam(chunk_path: str) -> str:
         piece.export(piece_path, format="wav")
 
         try:
-            print(f"  → Sarvam piece {i + 1}/{total_pieces} ...")
+            print(f"  -> Sarvam piece {i + 1}/{total_pieces} ...")
             full_text += _send_to_sarvam(piece_path) + " "
         finally:
             if os.path.exists(piece_path):
@@ -95,8 +95,8 @@ def transcribe_chunk_sarvam(chunk_path: str) -> str:
 def transcribe_chunk(chunk_path: str, language: str = "english") -> str:
     """
     Route one chunk to Whisper or Sarvam depending on language choice.
-    - english  → Whisper (local model)
-    - hinglish → Sarvam (translates to English while transcribing)
+    - english  -> Whisper (local model)
+    - hinglish -> Sarvam (translates to English while transcribing)
     """
     if language.lower() == "hinglish":
         return transcribe_chunk_sarvam(chunk_path)

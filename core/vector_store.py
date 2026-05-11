@@ -49,7 +49,7 @@ def build_vector_store(transcript: str) -> Chroma:
         chunk_overlap=100, # larger overlap to avoid splitting key sentences
     )
     chunks = splitter.split_text(transcript)
-    print(f"  → {len(chunks)} chunks created from transcript.")
+    print(f"  -> {len(chunks)} chunks created from transcript.")
 
     docs = [
         Document(page_content=chunk, metadata={"chunk_index": i})

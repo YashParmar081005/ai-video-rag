@@ -23,10 +23,19 @@ def get_embeddings():
 
 
 def _clear_collection():
-    """Delete old vector store on disk so each new video starts fresh."""
+    """Clear old vector store data using Chroma API to avoid Windows file lock errors."""
     if os.path.exists(CHROMA_DIR):
-        shutil.rmtree(CHROMA_DIR)
-        print("Old vector store cleared.")
+        try:
+            embeddings = get_embeddings()
+            old_store = Chroma(
+                collection_name=COLLECTION_NAME,
+                embedding_function=embeddings,
+                persist_directory=CHROMA_DIR
+            )
+            old_store.delete_collection()
+            print("Old vector store collection cleared via API.")
+        except Exception as e:
+            print(f"Could not clear collection: {e}")
 
 
 def build_vector_store(transcript: str) -> Chroma:
